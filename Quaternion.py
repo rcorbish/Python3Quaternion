@@ -74,17 +74,16 @@ class Quaternion(object):
         
         
         
-    def rotate(self, x,y,z):
+    def rotate(self, p ):
         '''
             Rotate a vector using this quaternion. This implements a
             Hamiltonian multiply  Q x P  = Q P Q'
-            
-            A rotation will create a new quaternion from the vector, which
-            has a 0 real component ( e.g. [0, X, Y, Z] )
-             
+                         
+            self is the rotation quaternion
+            p is the vector to rotate as a quaternion (0,x,y,z)
+
             @return:  a quaternion
         '''
-        p = Quaternion( 0,x,y,z )
         return (self * p) * ~self
 
 
@@ -186,7 +185,7 @@ class Quaternion(object):
                 pitch = math.asin ( 2 * test / unit )
                 roll  = math.atan2( 2 * (self.w * self.x  -  self.y*self.z) , -sqx + sqy - sqz + sqw )
                 
-        return ( math.degrees( yaw ), math.degrees( pitch ), math.degrees( roll ) )
+        return ( math.degrees( roll ), math.degrees( pitch ), math.degrees( yaw ) )
 
 
     @classmethod
@@ -264,6 +263,47 @@ class Quaternion(object):
         return this
 
     
+    @classmethod
+    def FromNormal( cls, fx, fy, fz, tx, ty, tz ) :
+        '''
+            Generate a quaternion that would rotate 
+            the from vector to the to vector
+        '''
+
+        # dot product of normal & up
+        dot = fx*tx + fy*ty + fz*tz
+        #print( "dot", dot )
+
+        # cross product of normal & up
+        x = fy*tz - ty*fz
+        y = fz*tx - tz*fx
+        z = fx*ty - tx*fy
+        #print( "cross", x, y, z )
+
+        w = math.sqrt( (fx*fx + fy*fy + fz*fz) * (tx*tx + ty*ty + tz*tz) ) + dot
+        if w < 0.0001 : # vectors are 180 degrees apart
+            w = 0 
+            x = -nz
+            y = ny
+            z = nx
+
+        this = cls( w, x, y, z )
+        this.normalize()
+        return this
+
+
+
+        if dot > 1 :
+            return Quaternion( 0,0,0,1 ) 
+
+        if dot <= -1 :
+            return Quaternion( 0,1,0,0 ) 
+
+        s = math.sqrt( (1+dot) * (1+dot) )
+        
+        this = cls( s/2.0, ax/s, ay/s, az/s ) 
+        this.normalize()
+        return this
 
     
     
@@ -290,7 +330,7 @@ class Quaternion(object):
         '''
             Return the quaternion as w+xi+yj+zk
         '''
-        return "{:.3f}".format( self.q[0] ) + "{:+.3f}i".format( self.q[1] )+ "{:+.3f}j".format( self.q[2] )+ "{:+.3f}k".format( self.q[3] ) 
+        return "{:.3g} {:+.3g}i {:+.3g}j {:+.3g}k".format( self.q[0] ,self.q[1], self.q[2], self.q[3] )
     
     
     def __eq__(self,other):
