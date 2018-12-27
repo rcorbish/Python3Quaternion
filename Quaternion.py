@@ -264,7 +264,7 @@ class Quaternion(object):
 
     
     @classmethod
-    def FromNormal( cls, fx, fy, fz, tx, ty, tz ) :
+    def Between( cls, fx, fy, fz, tx, ty, tz ) :
         '''
             Generate a quaternion that would rotate 
             the from vector (fx,fy,fz) into the to vector (tx,ty,tz)

@@ -18,9 +18,9 @@ class Test(unittest.TestCase):
         pass
 
 
-    def testNormal(self) :
+    def testBetween(self) :
         normal = Quaternion( 0, -1, 1, 1 ).normalize()
-        r1 = Quaternion.FromNormal( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
+        r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
         self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 1 from normal vector failed - w" )
         self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 1 from normal vector failed - x" )
@@ -28,7 +28,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual( normal.z, n_hat.z, msg="Rotation 1 from normal vector failed - z" )
         
         normal = Quaternion( 0, .707, -4.707, .707 ).normalize()
-        r1 = Quaternion.FromNormal( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
+        r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
         self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 2 from normal vector failed - w" )
         self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 2 from normal vector failed - x" )
@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         self.assertAlmostEqual( normal.z, n_hat.z, msg="Rotation 2 from normal vector failed - z" )
 
         normal = Quaternion( 0, .56, -.01, -1.5 ).normalize()
-        r1 = Quaternion.FromNormal( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
+        r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
         self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 3 from normal vector failed - w" )
         self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 3 from normal vector failed - x" )
