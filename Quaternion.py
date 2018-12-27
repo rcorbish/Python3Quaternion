@@ -267,28 +267,24 @@ class Quaternion(object):
     def FromNormal( cls, fx, fy, fz, tx, ty, tz ) :
         '''
             Generate a quaternion that would rotate 
-            the from vector to the to vector
+            the from vector (fx,fy,fz) into the to vector (tx,ty,tz)
         '''
-
-        # dot product of normal & up
+        # dot product of from & to
         dot = fx*tx + fy*ty + fz*tz
-        #print( "dot", dot )
 
-        # cross product of normal & up
+        # cross product of from & to
         x = fy*tz - ty*fz
         y = fz*tx - tz*fx
         z = fx*ty - tx*fy
-        #print( "cross", x, y, z )
 
         w = math.sqrt( (fx*fx + fy*fy + fz*fz) * (tx*tx + ty*ty + tz*tz) ) + dot
-        if w < 0.0001 : # vectors are 180 degrees apart
+        if w < 0.0001 : # vectors are exact opposite
             w = 0 
             x = -nz
             y = ny
             z = nx
 
         this = cls( w, x, y, z )
-        this.normalize()
         return this
 
 
