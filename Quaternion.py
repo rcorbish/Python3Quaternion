@@ -287,21 +287,6 @@ class Quaternion(object):
         this = cls( w, x, y, z )
         return this
 
-
-
-        if dot > 1 :
-            return Quaternion( 0,0,0,1 ) 
-
-        if dot <= -1 :
-            return Quaternion( 0,1,0,0 ) 
-
-        s = math.sqrt( (1+dot) * (1+dot) )
-        
-        this = cls( s/2.0, ax/s, ay/s, az/s ) 
-        this.normalize()
-        return this
-
-    
     
         
     def __getattribute__(self,name):
