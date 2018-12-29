@@ -311,7 +311,7 @@ class Quaternion(object):
         '''
             Return the quaternion as w+xi+yj+zk
         '''
-        return "{:.3f} {:+.3f}i {:+.3f}j {:+.3f}k".format( self.q[0] ,self.q[1], self.q[2], self.q[3] )
+        return "{:.2f}{:+.2f}i{:+.2f}j{:+.2f}k".format( self.q[0] ,self.q[1], self.q[2], self.q[3] )
     
     
     def __eq__(self,other):
