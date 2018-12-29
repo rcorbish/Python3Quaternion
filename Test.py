@@ -22,27 +22,17 @@ class Test(unittest.TestCase):
         normal = Quaternion( 0, -1, 1, 1 ).normalize()
         r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
-        self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 1 from normal vector failed - w" )
-        self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 1 from normal vector failed - x" )
-        self.assertAlmostEqual( normal.y, n_hat.y, msg="Rotation 1 from normal vector failed - y" )
-        self.assertAlmostEqual( normal.z, n_hat.z, msg="Rotation 1 from normal vector failed - z" )
+        self.assertQuaternionAlmostEqual( normal, n_hat, msg="Rotation 1 from normal vector failed" )
         
         normal = Quaternion( 0, .707, -4.707, .707 ).normalize()
         r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
-        self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 2 from normal vector failed - w" )
-        self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 2 from normal vector failed - x" )
-        self.assertAlmostEqual( normal.y, n_hat.y, msg="Rotation 2 from normal vector failed - y" )
-        self.assertAlmostEqual( normal.z, n_hat.z, msg="Rotation 2 from normal vector failed - z" )
+        self.assertQuaternionAlmostEqual( normal, n_hat, msg="Rotation 1 from normal vector failed" )
 
         normal = Quaternion( 0, .56, -.01, -1.5 ).normalize()
         r1 = Quaternion.Between( self.up.x, self.up.y, self.up.z, normal.x, normal.y, normal.z )
         n_hat = r1.rotate( self.up ).normalize()
-        self.assertAlmostEqual( normal.w, n_hat.w, msg="Rotation 3 from normal vector failed - w" )
-        self.assertAlmostEqual( normal.x, n_hat.x, msg="Rotation 3 from normal vector failed - x" )
-        self.assertAlmostEqual( normal.y, n_hat.y, msg="Rotation 3 from normal vector failed - y" )
-        self.assertAlmostEqual( normal.z, n_hat.z, msg="Rotation 3 from normal vector failed - z" )
-        
+        self.assertQuaternionAlmostEqual( normal, n_hat, msg="Rotation 1 from normal vector failed" )
 
 
     def testNormalize(self):
@@ -109,6 +99,12 @@ class Test(unittest.TestCase):
         for i in range(min(len(t1), len(t2) ) ):
             self.assertAlmostEqual( t1[i], t2[i], msg=msg, delta=tolerance )
 
+
+    def assertQuaternionAlmostEqual( self, t1, t2, msg, tolerance = 0.0001 ) :
+        self.assertAlmostEqual( t2.w, t1.w, msg=msg )
+        self.assertAlmostEqual( t2.x, t1.x, msg=msg )
+        self.assertAlmostEqual( t2.y, t1.y, msg=msg )
+        self.assertAlmostEqual( t2.z, t1.z, msg=msg )
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
