@@ -280,9 +280,9 @@ class Quaternion(object):
         w = math.sqrt( (fx*fx + fy*fy + fz*fz) * (tx*tx + ty*ty + tz*tz) ) + dot
         if w < 0.0001 : # vectors are exact opposite
             w = 0 
-            x = -nz
-            y = ny
-            z = nx
+            x = -fz
+            y = fy
+            z = fx
 
         this = cls( w, x, y, z )
         return this
